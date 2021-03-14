@@ -1,10 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { DefaultLastPageMetadata, DefaultState } from '../common/CommonInterface'
-type CommonState = {} & DefaultState
+type CommonState = {
+  isLogin: boolean
+} & DefaultState
 
 const initCommonState: CommonState = {
   isLoading: false,
   error: null,
+  isLogin: false,
 }
 
 function loadingFailed(state: CommonState, action: PayloadAction<string>) {
@@ -22,10 +25,13 @@ export const common = createSlice({
     stopLoading(state) {
       state.isLoading = false
     },
+    setIsLogin(state, { payload: flag }) {
+      state.isLogin = flag
+    },
   },
 })
 
-export const { startLoading } = common.actions
+export const { startLoading, setIsLogin, stopLoading } = common.actions
 export default common.reducer
 
 // export const fetchOrders = (): AppThunk => async dispatch => {

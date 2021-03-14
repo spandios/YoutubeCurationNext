@@ -9,3 +9,8 @@ export class LoginRequest {
   email: string
   name: string
 }
+
+export class JwtResponse {
+  accessToken: string
+  refreshToken: string
+}

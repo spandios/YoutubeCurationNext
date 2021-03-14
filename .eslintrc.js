@@ -7,5 +7,7 @@ module.exports = {
     'prettier',
   ],
   plugins: ['@typescript-eslint', 'react'],
-  rules: {},
+  rules: {
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+  },
 }

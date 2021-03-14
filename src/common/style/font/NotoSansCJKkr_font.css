@@ -1,0 +1,73 @@
+@charset "utf-8";
+
+@font-face {
+    font-family: 'Noto Sans KR';
+    src: url('NotoSansCJKkr-Thin.eot');
+    src: url('NotoSansCJKkr-Thin.eot?#iefix') format('embedded-opentype');
+    src: url('NotoSansCJKkr-Thin.woff') format('woff');
+
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Noto Sans KR';
+    src: url('NotoSansCJKkr-Light.eot');
+    src: url('NotoSansCJKkr-Light.eot?#iefix') format('embedded-opentype');
+    src: url('NotoSansCJKkr-Light.woff') format('woff');
+
+    font-weight: 200;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Noto Sans KR';
+    src: url('NotoSansCJKkr-DemiLight.eot');
+    src: url('NotoSansCJKkr-DemiLight.eot?#iefix') format('embedded-opentype');
+    src: url('NotoSansCJKkr-DemiLight.woff') format('woff');
+
+    font-style: normal;
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: 'Noto Sans KR';
+    src: url('NotoSansCJKkr-Regular.eot');
+    src: url('NotoSansCJKkr-Regular.eot?#iefix') format('embedded-opentype');
+    src: url('NotoSansCJKkr-Regular.woff') format('woff');
+
+    font-style: normal;
+    font-weight: 400;
+}
+
+
+@font-face {
+    font-family: 'Noto Sans KR';
+    src: url('NotoSansCJKkr-Medium.eot');
+    src: url('NotoSansCJKkr-Medium.eot?#iefix') format('embedded-opentype');
+    src: url('NotoSansCJKkr-Medium.woff') format('woff');
+
+    font-style: normal;
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: 'Noto Sans KR';
+    src: url('NotoSansCJKkr-Bold.eot');
+    src: url('NotoSansCJKkr-Bold.eot?#iefix') format('embedded-opentype');
+    src: url('NotoSansCJKkr-Bold.woff') format('woff');
+
+    font-style: normal;
+    font-weight: 700;
+}
+
+
+@font-face {
+    font-family: 'Noto Sans KR';
+    src: url('NotoSansCJKkr-Black.eot');
+    src: url('NotoSansCJKkr-Black.eot?#iefix') format('embedded-opentype');
+    src: url('NotoSansCJKkr-Black.woff') format('woff');
+
+    font-style: normal;
+    font-weight: 900;
+}

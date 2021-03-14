@@ -55,8 +55,8 @@ myAxios.interceptors.response.use(
         }
         console.log('[axios]start refresh token')
         originalRequest._retry = true
-        return axios
-          .get('https://localhost:3100/auth/refresh_token')
+        return myAxios
+          .post('/auth/refresh_token')
           .then((res) => {
             if (res.data) {
               const access_token = res.data.accessToken
@@ -81,5 +81,9 @@ myAxios.interceptors.response.use(
     }
   }
 )
+
+export function setCookieFromServer(context: any) {
+  myAxios.defaults.headers.Cookie = context.req.headers.cookie
+}
 
 export default myAxios
