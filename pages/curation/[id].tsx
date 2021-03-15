@@ -1,19 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { setCookieFromServer } from '../../src/common/MyAxios'
-import {
-  getCurationDetail,
-  useMyCurationDetail,
-  useMyCurationList,
-} from '../../src/feature/curation/api/CurationAPI'
+import { getCurationDetail, useCurationDetail } from '../../src/feature/curation/api/CurationAPI'
 import YoutubePlayer from '../../src/feature/curation/component/YoutubePlayer'
 import styled from 'styled-components'
 import { CurationDetailResponse } from '../../src/feature/curation/dto/CurationDetailResponse'
-import TimestampList from '../../src/feature/curation/component/TimestampList'
-import { TimeStamp } from '../../src/feature/curation/dto/TimeStamp'
-import { CurationResponse } from '../../src/feature/curation/dto/CurationResponse'
+import TimestampList from '../../src/feature/curation/component/TimestampComponent'
 import { DefaultButton } from 'src/common/style/theme'
-import { useQueryClient } from 'react-query'
-import { elementType } from 'prop-types'
+import { useIsLogin } from '../../src/hook/ussIsLogin'
+import { useParams } from 'react-router'
+import { useRouter } from 'next/router'
 
 const Container = styled.div`
   display: flex;
@@ -25,6 +20,7 @@ const Information = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-top: 32px;
+
   .curation_title {
     font-size: 18px;
   }
@@ -37,10 +33,9 @@ const Information = styled.div`
 
 export const getServerSideProps = async (context) => {
   setCookieFromServer(context)
-  let result: CurationDetailResponse
+  let result
   try {
-    const response = await getCurationDetail(Number(context.params.id))
-    console.log(response.data)
+    const response = await getCurationDetail(context.params.id)
     result = response.data
   } catch (e) {
     console.log(e)
@@ -53,71 +48,45 @@ export const getServerSideProps = async (context) => {
     },
   }
 }
-interface Props {
-  data: CurationDetailResponse
-  id: string
-}
 
-const CurationDetail = ({ data, id }: Props) => {
+const CurationDetail = ({ data, id }) => {
+  const router = useRouter()
+  const isLogin = useIsLogin()
   const yPlayer = useRef(null)
-  const { isLoading, error, data: curation, refetch } = useMyCurationDetail<CurationDetailResponse>(
-    data,
-    id
-  )
-
-  const [curations, setCurations] = useState<CurationDetailResponse>(null)
-  useEffect(() => {
-    if (curation) {
-      setCurations(curation)
-    }
-  }, [curation])
-
   const [onUpdate, setOnUpdate] = useState(false)
-
-  const goToTimeStamp = (time: string) => {
-    if (yPlayer.current) yPlayer.current.seekTo(time)
-  }
-
-  function removeItem(time: TimeStamp) {
-    setCurations({
-      ...curations,
-      timestamp: curations.timestamp.filter((etime) => etime.timestamp != time.timestamp),
-    })
-  }
-
-  function onCompleteUpdate() {}
+  const { data: curation, isValidating, error, mutate } = useCurationDetail(id, data)
 
   return (
     <Container>
-      {curations && (
+      {curation && (
         <>
           <YoutubePlayer
-            youtubeId={curations.youtube.id}
+            youtubeId={curation.youtube.id}
             onReadyPlayer={(player) => (yPlayer.current = player)}
           />
           <Information>
             <div>
-              <b className="curation_title">{curations.title}</b>
-              <div className="curation_viewCnt">조회수 {curations.viewCnt}회</div>
+              <b className="curation_title">{curation.title}</b>
+              <div className="curation_viewCnt">조회수 {curation.viewCnt}회</div>
             </div>
 
-            {curations.yours && (
+            {isLogin && curation.yours ? (
               <DefaultButton onClick={() => setOnUpdate(!onUpdate)}>
                 {onUpdate ? '수정취소' : '수정하기'}
               </DefaultButton>
-            )}
+            ) : null}
           </Information>
 
           <TimestampList
+            youtubePlayer={yPlayer.current}
             onUpdate={onUpdate}
-            isYours={curations.yours}
-            goToTime={goToTimeStamp}
+            isYours={curation.yours}
             isCreate={false}
-            timestamp={curations.timestamp}
-            removeTimeStamp={removeItem}
+            defaultTimestamps={curation.timestamp}
+            onCompleteUpdate={(timestamp) => {
+              // setCuration({ ...curation, timestamp: timestamp })
+            }}
           />
-
-          {onUpdate && <DefaultButton onClick={onCompleteUpdate}>수정완료</DefaultButton>}
         </>
       )}
     </Container>

@@ -22,6 +22,7 @@ const MyGoogleLogin = () => {
 
       fetchLogin(loginRequest)
         .then((r) => {
+          console.log(r.data.refreshToken)
           if (r.data.accessToken && r.data.refreshToken) {
             setToken(r.data.accessToken, r.data.refreshToken)
             dispatch(setIsLogin(true))

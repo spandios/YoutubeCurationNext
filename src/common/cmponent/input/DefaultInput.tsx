@@ -34,7 +34,7 @@ const InputText = ({
   const [keyword, setKeyword] = useState(defaultText)
   const mOnChangeKeyword = (keyword: string) => {
     setKeyword(keyword)
-    onChangeKeyword(keyword)
+    if (onChangeKeyword) onChangeKeyword(keyword)
   }
   return (
     <Container style={style}>

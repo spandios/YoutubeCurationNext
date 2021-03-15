@@ -27,6 +27,12 @@ interface MyProps {
   onReadyPlayer: (player: any) => void
 }
 const YoutubePlayer = ({ youtubeId, onReadyPlayer }: MyProps) => {
+  useEffect(() => {
+    return () => {
+      player.current = null
+      console.log(player.current)
+    }
+  }, [])
   const player = useRef(null)
   const successScript = useScript('https://www.youtube.com/iframe_api')
 
@@ -56,7 +62,7 @@ const YoutubePlayer = ({ youtubeId, onReadyPlayer }: MyProps) => {
   }
 
   function onPlayerStateChange(event) {
-    console.log('event', event)
+    // console.log('event', event)
   }
 
   function stopVideo() {
@@ -77,9 +83,11 @@ const YoutubePlayer = ({ youtubeId, onReadyPlayer }: MyProps) => {
 
   return (
     <Container>
-      <div className="videoWrapper">
-        <div id="player" />
-      </div>
+      {youtubeId ? (
+        <div className="videoWrapper">
+          <div id="player" />
+        </div>
+      ) : null}
     </Container>
   )
 }

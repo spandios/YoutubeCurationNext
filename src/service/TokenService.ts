@@ -8,7 +8,7 @@ export const setAccessToken = (accessToken: string) => {
 }
 
 export const setRefreshToken = (refreshToken: string) => {
-  cookies.set('refresh_token', refreshToken, { path: '/', httpOnly: true, maxAge: 60 * 60 * 1000 })
+  cookies.set('refresh_token', refreshToken, { path: '/', httpOnly: true })
 }
 
 export const setToken = (accessToken: string, refreshToken?: string) => {
@@ -19,7 +19,6 @@ export const setToken = (accessToken: string, refreshToken?: string) => {
   if (refreshToken != null) {
     setRefreshToken(refreshToken)
   }
-  cookies.get('refresh_token')
 }
 
 export const getAccessToken = (): string => {

@@ -63,19 +63,13 @@ const ViewAllButton = styled(DefaultButton)`
   width: 100%;
 `
 
-const AddCuration = styled(DefaultButton)`
-  width: 100%;
-  margin: 16px 0;
-`
-
 const MyCurationList = ({ list }: CurationProps) => {
-  const isLogin = useIsLogin()
   return (
     <Container>
       <Title>내 큐레이팅</Title>
       <List>
         {list.map((r) => (
-          <Link key={r.id} href={'/curation/' + r.id}>
+          <Link key={r.id} href={'/curation/' + r.id} as={`/curation/` + r.id}>
             <Item>
               <Thumbnail src={r.youtube.thumbnail} width={'100%'} />
               <b className="title">{r.title}</b>
@@ -86,11 +80,6 @@ const MyCurationList = ({ list }: CurationProps) => {
         ))}
       </List>
       <ViewAllButton>모두 보기</ViewAllButton>
-      {isLogin && (
-        <AddCuration>
-          <Link href="curation/create">큐레이션 생성</Link>
-        </AddCuration>
-      )}
     </Container>
   )
 }

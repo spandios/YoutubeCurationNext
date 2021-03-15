@@ -22,7 +22,6 @@ export default class MyDocument extends Document {
       <Html>
         {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
         {/*@ts-ignore*/}
-
         <Head>{this.props.styleTags}</Head>
         <body>
           <Main />

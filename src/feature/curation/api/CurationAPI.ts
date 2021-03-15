@@ -1,25 +1,31 @@
 import myAxios from '../../../common/MyAxios'
-import { useMyQuery } from '../../../hook/useQuery'
 import { CurationCreateDTO } from '../dto/CurationCreateDTO'
 import { CurationDetailResponse } from '../dto/CurationDetailResponse'
+import useSWR from 'swr'
+import { CurationResponse } from '../dto/CurationResponse'
+
 const DOMAIN = 'curation'
+
 export function getMyCurationList() {
-  return myAxios.get(DOMAIN + '/me')
+  return myAxios.get<CurationResponse[]>(DOMAIN + '/me')
 }
 
-export function useMyCurationList<T>(initialData: T) {
-  return useMyQuery<T>('getMyCurationList', DOMAIN + '/me', { initialData, refetchOnMount: false })
+export function useMyCurationList() {
+  return useSWR<CurationResponse[]>('getMyCurationList', () =>
+    getMyCurationList().then((r) => r.data)
+  )
 }
 
-export function getCurationDetail(curationId: number) {
+export function getCurationDetail(curationId: string) {
   return myAxios.get<CurationDetailResponse>(DOMAIN + '/' + curationId)
 }
 
-export function useMyCurationDetail<T>(initialData: T, curationId) {
-  return useMyQuery<T>('getMyCurationDetail', DOMAIN + '/' + curationId, {
-    initialData,
-    refetchOnMount: false,
-  })
+export function useCurationDetail(curationId: string, initialData) {
+  return useSWR<CurationDetailResponse>(
+    'getCurationDetail',
+    () => getCurationDetail(curationId).then((r) => r.data),
+    { initialData }
+  )
 }
 
 export function createCuration(curation: CurationCreateDTO) {

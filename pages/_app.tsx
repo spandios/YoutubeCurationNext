@@ -1,7 +1,4 @@
 import React from 'react'
-import { QueryClient, QueryClientProvider } from 'react-query'
-import { Hydrate } from 'react-query/hydration'
-import { ReactQueryDevtools } from 'react-query/devtools'
 import store from 'src/store'
 import { Provider } from 'react-redux'
 import styled, { ThemeProvider } from 'styled-components'
@@ -12,6 +9,7 @@ import GlobalStyle from 'src/common/style/GlobalStyle'
 import CommonComponent from '../src/common/cmponent/CommonComponent'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
+import { SWRConfig } from 'swr'
 const Container = styled.div`
   padding: 56px 28px;
   margin: 0 auto;
@@ -24,26 +22,18 @@ const Container = styled.div`
 `
 
 export default function MyApp({ Component, pageProps }) {
-  const queryClientRef = React.useRef(null)
-  if (!queryClientRef.current) {
-    queryClientRef.current = new QueryClient()
-  }
-
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
-        <QueryClientProvider client={queryClientRef.current}>
-          <Hydrate state={pageProps.dehydratedState}>
-            <title>YoutubeCuration</title>
-            <CommonComponent />
-            <HeaderComponent />
-            <Container>
-              <Component {...pageProps} />
-            </Container>
-          </Hydrate>
-          <ReactQueryDevtools />
-        </QueryClientProvider>
+        <SWRConfig value={{ revalidateOnFocus: false }}>
+          <title>YoutubeCuration</title>
+          <CommonComponent />
+          <HeaderComponent />
+          <Container>
+            <Component {...pageProps} />
+          </Container>
+        </SWRConfig>
       </ThemeProvider>
     </Provider>
   )
