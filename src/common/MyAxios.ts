@@ -16,14 +16,20 @@ if (getAccessToken() != null) {
 }
 
 myAxios.interceptors.request.use(
-  async function (config) {
+  function (config) {
     const token = getAccessToken()
-    const decode = jwt.decode(token) as any
-    const exp = decode.exp
-    if (Date.now() >= exp * 1000) {
-      console.log('Expired')
+    console.log(token)
+    // const decode = jwt.decode(token) as any
+    // const exp = decode.exp
+    // console.log(decode)
+    // if (Date.now() >= exp * 1000) {
+    //   console.log('Expired')
+    // }
+    if (token) {
+      config.headers.Authorization = 'Bearer ' + token
     }
-    if (token) config.headers.Authorization = 'Bearer ' + token
+    console.log(config)
+    return Promise.resolve(config)
     // verify(token)
     //   .then((r) => {
     //     console.log(r)
@@ -31,7 +37,7 @@ myAxios.interceptors.request.use(
     //   .catch((err) => {
     //     console.log(err)
     //   })
-    return Promise.resolve(config)
+
     if (token) {
       // verify(token)
       //   .then((r) => {

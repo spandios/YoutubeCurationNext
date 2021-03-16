@@ -19,10 +19,8 @@ const MyGoogleLogin = () => {
       loginRequest.name = basicProfile.getFamilyName() + basicProfile.getGivenName()
       loginRequest.providerId = basicProfile.getId()
       loginRequest.provider = Provider.GOOGLE
-
       fetchLogin(loginRequest)
         .then((r) => {
-          console.log(r.data.refreshToken)
           if (r.data.accessToken && r.data.refreshToken) {
             setToken(r.data.accessToken, r.data.refreshToken)
             dispatch(setIsLogin(true))
