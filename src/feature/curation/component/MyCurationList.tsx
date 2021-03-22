@@ -3,7 +3,6 @@ import { CurationResponse } from '../dto/CurationResponse'
 import styled from 'styled-components'
 import theme, { DefaultButton } from '../../../common/style/theme'
 import Link from 'next/link'
-import { useIsLogin } from '../../../hook/ussIsLogin'
 
 interface CurationProps {
   list: CurationResponse[]
@@ -69,7 +68,7 @@ const MyCurationList = ({ list }: CurationProps) => {
       <Title>내 큐레이팅</Title>
       <List>
         {list.map((r) => (
-          <Link key={r.id} href={'/curation/' + r.id} as={`/curation/` + r.id}>
+          <Link key={r.id} href={'/my_curation/' + r.id} as={`/my_curation/` + r.id}>
             <Item>
               <Thumbnail src={r.youtube.thumbnail} width={'100%'} />
               <b className="title">{r.title}</b>

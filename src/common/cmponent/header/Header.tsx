@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { DefaultButton } from '../../style/theme'
 import Link from 'next/link'
 import { useIsLogin } from '../../../hook/ussIsLogin'
 import { BiUser } from 'react-icons/bi'

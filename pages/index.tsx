@@ -1,29 +1,10 @@
-import Head from 'next/head'
 import MyCurationList from '../src/feature/curation/component/MyCurationList'
-import { getMyCurationList, useMyCurationList } from '../src/feature/curation/api/CurationAPI'
-import { setCookieFromServer } from '../src/common/MyAxios'
+import { useMyCurationList } from '../src/feature/curation/api/CurationAPI'
 import styled from 'styled-components'
 import theme, { DefaultButton } from '../src/common/style/theme'
 import Link from 'next/link'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useIsLogin } from '../src/hook/ussIsLogin'
-
-export const getServerSideProps = async (context) => {
-  setCookieFromServer(context)
-  let myList = []
-  try {
-    const response = await getMyCurationList()
-    myList = response.data
-  } catch (e) {
-    console.log(e)
-  }
-
-  return {
-    props: {
-      myCurationList: myList,
-    },
-  }
-}
 
 const Container = styled.div`
   min-height: 100vh;
@@ -38,12 +19,9 @@ const AddCuration = styled(DefaultButton)`
 `
 
 export default function Home() {
-  const { data, isValidating, error, mutate } = useMyCurationList()
-  useEffect(() => {}, [error, isValidating])
-  useEffect(() => {
-    console.log(data)
-  }, [data])
   const isLogin = useIsLogin()
+  const { data, isValidating, error, mutate } = useMyCurationList()
+
   return (
     <Container>
       <>

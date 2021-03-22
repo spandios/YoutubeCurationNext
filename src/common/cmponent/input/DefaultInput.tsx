@@ -6,7 +6,7 @@ import theme, { Input } from 'src/common/style/theme'
 const Container = styled.div`
   display: flex;
   align-items: center;
-  border: 1px solid ${theme.colors.border_color};
+  // border: 1px solid ${theme.colors.border_color};
   padding: ${theme.paddings.small};
 `
 
@@ -19,6 +19,7 @@ interface MyProps {
   id?: string
   defaultText?: string
   readonly?: boolean
+  props?: any
 }
 
 const InputText = ({
@@ -30,6 +31,7 @@ const InputText = ({
   defaultText = '',
   readonly = false,
   innerStyle = { width: '100%' },
+  props,
 }: MyProps) => {
   const [keyword, setKeyword] = useState(defaultText)
   const mOnChangeKeyword = (keyword: string) => {
@@ -47,6 +49,7 @@ const InputText = ({
         onChange={(e) => mOnChangeKeyword(e.target.value)}
         style={innerStyle}
         readOnly={readonly}
+        {...props}
       />
     </Container>
   )

@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { DefaultLastPageMetadata, DefaultState } from '../common/CommonInterface'
+import { getAccessToken } from '../service/TokenService'
 type CommonState = {
   isLogin: boolean
 } & DefaultState
@@ -7,7 +8,7 @@ type CommonState = {
 const initCommonState: CommonState = {
   isLoading: false,
   error: null,
-  isLogin: false,
+  isLogin: getAccessToken() != null,
 }
 
 function loadingFailed(state: CommonState, action: PayloadAction<string>) {

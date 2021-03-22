@@ -30,7 +30,6 @@ const YoutubePlayer = ({ youtubeId, onReadyPlayer }: MyProps) => {
   useEffect(() => {
     return () => {
       player.current = null
-      console.log(player.current)
     }
   }, [])
   const player = useRef(null)
@@ -58,7 +57,7 @@ const YoutubePlayer = ({ youtubeId, onReadyPlayer }: MyProps) => {
   }
 
   function onPlayerReady(event) {
-    event.target.playVideo()
+    // event.target.playVideo()
   }
 
   function onPlayerStateChange(event) {

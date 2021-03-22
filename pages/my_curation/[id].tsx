@@ -1,18 +1,22 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { setCookieFromServer } from '../../src/common/MyAxios'
-import { getCurationDetail, useCurationDetail } from '../../src/feature/curation/api/CurationAPI'
+import {
+  CURATION_DETAIL,
+  getCurationDetail,
+  useCurationDetail,
+} from '../../src/feature/curation/api/CurationAPI'
 import YoutubePlayer from '../../src/feature/curation/component/YoutubePlayer'
 import styled from 'styled-components'
-import { CurationDetailResponse } from '../../src/feature/curation/dto/CurationDetailResponse'
 import TimestampList from '../../src/feature/curation/component/TimestampComponent'
-import { DefaultButton } from 'src/common/style/theme'
 import { useIsLogin } from '../../src/hook/ussIsLogin'
-import { useParams } from 'react-router'
-import { useRouter } from 'next/router'
+import { useSwrLocal } from '../../src/hook/useSwrLocal'
+import { useLocalCurationDetail } from '../../src/feature/curation/hook/useLocalCurationDetail'
+import { CurationDetailResponse } from '../../src/feature/curation/dto/CurationDetailResponse'
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 46px 0px 100px 0px;
 `
 
 const Information = styled.div`
@@ -22,7 +26,7 @@ const Information = styled.div`
   margin-top: 32px;
 
   .curation_title {
-    font-size: 18px;
+    font-size: 24px;
   }
 
   .curation_viewCnt {
@@ -33,28 +37,30 @@ const Information = styled.div`
 
 export const getServerSideProps = async (context) => {
   setCookieFromServer(context)
-  let result
+  let result = null
   try {
     const response = await getCurationDetail(context.params.id)
-    result = response.data
+    result = response.data || null
   } catch (e) {
     console.log(e)
   }
 
   return {
     props: {
-      data: result,
       id: context.params.id,
+      data: result,
     },
   }
 }
 
-const CurationDetail = ({ data, id }) => {
-  const router = useRouter()
+const MyCurationDetail = ({ data, id }) => {
   const isLogin = useIsLogin()
-  const yPlayer = useRef(null)
-  const [onUpdate, setOnUpdate] = useState(false)
+  const [youtubePlayer, setYoutubePlayer] = useState()
   const { data: curation, isValidating, error, mutate } = useCurationDetail(id, data)
+  const { mutation } = useSwrLocal<CurationDetailResponse>(CURATION_DETAIL)
+  useEffect(() => {
+    if (curation) mutation(curation)
+  }, [curation])
 
   return (
     <Container>
@@ -62,25 +68,20 @@ const CurationDetail = ({ data, id }) => {
         <>
           <YoutubePlayer
             youtubeId={curation.youtube.id}
-            onReadyPlayer={(player) => (yPlayer.current = player)}
+            onReadyPlayer={(player) => {
+              setYoutubePlayer(player)
+            }}
           />
           <Information>
             <div>
               <b className="curation_title">{curation.title}</b>
               <div className="curation_viewCnt">조회수 {curation.viewCnt}회</div>
             </div>
-
-            {isLogin && curation.yours ? (
-              <DefaultButton onClick={() => setOnUpdate(!onUpdate)}>
-                {onUpdate ? '수정취소' : '수정하기'}
-              </DefaultButton>
-            ) : null}
           </Information>
 
           <TimestampList
-            youtubePlayer={yPlayer.current}
-            onUpdate={onUpdate}
-            isYours={curation.yours}
+            youtubePlayer={youtubePlayer}
+            isYours={isLogin && curation.yours}
             isCreate={false}
             defaultTimestamps={curation.timestamp}
             onCompleteUpdate={(timestamp) => {
@@ -93,4 +94,4 @@ const CurationDetail = ({ data, id }) => {
   )
 }
 
-export default CurationDetail
+export default MyCurationDetail

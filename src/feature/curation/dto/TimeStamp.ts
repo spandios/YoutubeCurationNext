@@ -3,4 +3,5 @@ export class TimeStamp {
   title: string
   timestamp: string
   second: string
+  is_update = false
 }
