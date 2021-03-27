@@ -20,6 +20,7 @@ interface MyProps {
   defaultText?: string
   readonly?: boolean
   props?: any
+  divider?: boolean
 }
 
 const InputText = ({
@@ -32,11 +33,15 @@ const InputText = ({
   readonly = false,
   innerStyle = { width: '100%' },
   props,
+  divider = false,
 }: MyProps) => {
   const [keyword, setKeyword] = useState(defaultText)
   const mOnChangeKeyword = (keyword: string) => {
     setKeyword(keyword)
     if (onChangeKeyword) onChangeKeyword(keyword)
+  }
+  if (divider) {
+    style['borderBottom'] = '1px solid ' + theme.colors.border_color
   }
   return (
     <Container style={style}>

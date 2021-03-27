@@ -1,7 +1,7 @@
 import React from 'react'
 import MyGoogleLogin from '../../src/feature/auth/component/MyGoogleLogin'
 
-const LoginIndex = () => {
+const Index = () => {
   return (
     <div>
       <MyGoogleLogin />
@@ -9,4 +9,4 @@ const LoginIndex = () => {
   )
 }
 
-export default LoginIndex
+export default Index

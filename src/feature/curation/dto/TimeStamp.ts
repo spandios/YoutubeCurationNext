@@ -4,4 +4,5 @@ export class TimeStamp {
   timestamp: string
   second: string
   is_update = false
+  is_creating = false
 }

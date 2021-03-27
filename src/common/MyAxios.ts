@@ -1,5 +1,7 @@
 import axios from 'axios'
-import { getAccessToken, setAccessToken } from '../service/TokenService'
+import { clearToken, getAccessToken, setAccessToken } from '../service/TokenService'
+import { decoded } from '../service/JwtService'
+import { calMinute } from './DateUtil'
 
 const myAxios = axios.create({
   withCredentials: true,
@@ -18,6 +20,31 @@ myAxios.interceptors.request.use(
     const token = getAccessToken()
     if (token) {
       config.headers.Authorization = 'Bearer ' + token
+    }
+    if (getAccessToken()) {
+      const jwt = decoded(getAccessToken()) as any
+      if (jwt) {
+        const exp = new Date(jwt.exp * 1000)
+        const date = calMinute(-40, exp).toDate()
+        if (new Date() >= date) {
+          return myAxios
+            .post('/auth/refresh_token')
+            .then((res) => {
+              if (res.data) {
+                const access_token = res.data.accessToken
+                if (process.browser) setAccessToken(access_token)
+                myAxios.defaults.headers['Authorization'] = 'Bearer ' + access_token
+                config.headers.Authorization = 'Bearer ' + access_token
+                return Promise.resolve(config)
+              }
+            })
+            .catch((err) => {
+              clearToken()
+              document.location.href = '/login'
+              return Promise.resolve(config)
+            })
+        }
+      }
     }
     return Promise.resolve(config)
   },
@@ -49,20 +76,18 @@ myAxios.interceptors.response.use(
           .then((res) => {
             if (res.data) {
               const access_token = res.data.accessToken
-              console.log('[axios]success new token receive : ' + access_token)
               if (process.browser) setAccessToken(access_token)
               myAxios.defaults.headers['Authorization'] = 'Bearer ' + access_token
               originalRequest.headers['Authorization'] = 'Bearer ' + access_token
-              console.log('start originalreqeust')
               return myAxios(originalRequest)
             } else {
-              return Promise.reject('재발급에러')
+              document.location.href = '/login'
+              clearToken()
             }
           })
           .catch((err) => {
-            console.log('토큰 재발급 중 에러가 발생했습니다.')
-            console.log(err)
-            return Promise.reject(error)
+            clearToken()
+            document.location.href = '/login'
           })
       } else {
         console.log(error)
@@ -74,9 +99,6 @@ myAxios.interceptors.response.use(
 export function setCookieFromServer(context: any) {
   myAxios.defaults.headers.cookie = context.req.headers.cookie
   myAxios.defaults.headers.Authorization = context.req.headers.Authorization
-  // console.log(myAxios)
-  // const decode = decoded(context.req.headers.cookie.access_token)
-  // console.log(decode)
 }
 
 export default myAxios

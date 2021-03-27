@@ -1,41 +1,45 @@
-import moment from 'moment-timezone';
+import moment from 'moment-timezone'
 
-moment.tz.setDefault('Asia/Seoul');
+moment.tz.setDefault('Asia/Seoul')
 
 export const now = () => {
-  return moment().toDate();
-};
+  return moment().toDate()
+}
 
 export function getDate(date?: Date) {
-  return moment(date).format('YYYY-MM-DD');
+  return moment(date).format('YYYY-MM-DD')
 }
 
 export function getDateTime(date?: Date) {
-  const format = 'YYYY-MM-DD HH:mm:ss';
-  return moment(date).format(format);
+  const format = 'YYYY-MM-DD HH:mm:ss'
+  return moment(date).format(format)
 }
 
 export function getDateTimeMinute(date?: Date) {
-  const format = 'YYYY-MM-DD HH:mm';
-  return moment(date).format(format);
+  const format = 'YYYY-MM-DD HH:mm'
+  return moment(date).format(format)
+}
+
+export function calMinute(addMinute: number, targetDate: Date = new Date()) {
+  return moment(targetDate).add(addMinute, 'minute')
 }
 
 export function calDay(addDay: number, targetDate: Date = new Date()) {
-  return moment(targetDate).add(addDay, 'days');
+  return moment(targetDate).add(addDay, 'days')
 }
 
 export function calMonth(addMonth: number, targetDate: Date = new Date()) {
-  return moment(targetDate).add(addMonth, 'month');
+  return moment(targetDate).add(addMonth, 'month')
 }
 
 export function calYear(addYear: number, targetDate: Date = new Date()) {
-  return moment(targetDate).add(addYear, 'year');
+  return moment(targetDate).add(addYear, 'year')
 }
 
 export function isBefore(curDate: Date, targetDate: Date = new Date()) {
-  return moment(targetDate).isBefore(targetDate);
+  return moment(targetDate).isBefore(targetDate)
 }
 
 export function isAfter(curDate: Date, targetDate: Date = new Date()) {
-  return moment(curDate).isAfter(targetDate);
+  return moment(curDate).isAfter(targetDate)
 }

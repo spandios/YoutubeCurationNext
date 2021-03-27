@@ -40,7 +40,7 @@ export const getServerSideProps = async (context) => {
   let result = null
   try {
     const response = await getCurationDetail(context.params.id)
-    result = response.data || null
+    if (response) result = response.data
   } catch (e) {
     console.log(e)
   }

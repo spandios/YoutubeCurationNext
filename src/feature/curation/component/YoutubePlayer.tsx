@@ -36,6 +36,12 @@ const YoutubePlayer = ({ youtubeId, onReadyPlayer }: MyProps) => {
   const successScript = useScript('https://www.youtube.com/iframe_api')
 
   function onYouTubeIframeAPIReady(id: string) {
+    const wrapper = document.getElementById('videoWrapper')
+    const elem = document.getElementById('player')
+    elem.parentNode.removeChild(elem)
+    const player = document.createElement('div')
+    player.id = 'player'
+    wrapper.appendChild(player)
     // @ts-ignore
     if (YT.loaded) {
       // @ts-ignore
@@ -83,7 +89,7 @@ const YoutubePlayer = ({ youtubeId, onReadyPlayer }: MyProps) => {
   return (
     <Container>
       {youtubeId ? (
-        <div className="videoWrapper">
+        <div className="videoWrapper" id="videoWrapper">
           <div id="player" />
         </div>
       ) : null}

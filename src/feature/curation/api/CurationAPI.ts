@@ -4,7 +4,8 @@ import { CurationDetailResponse } from '../dto/CurationDetailResponse'
 import useSWR from 'swr'
 import { CurationResponse } from '../dto/CurationResponse'
 import { useIsLogin } from '../../../hook/ussIsLogin'
-import { TimestampUpdateDTO } from '../dto/TimestampUpdateDTO'
+import { TimeStampCreateDTO, TimestampUpdateDTO } from '../dto/TimestampUpdateDTO'
+import { TimeStamp } from '../dto/TimeStamp'
 
 const DOMAIN = 'curation'
 export const CURATION_DETAIL = 'CURATION_DETAIL'
@@ -37,4 +38,8 @@ export function createCuration(curation: CurationCreateDTO) {
 
 export function updateTimestamp(dto: TimestampUpdateDTO) {
   return myAxios.put(DOMAIN + '/me/' + dto.curationId + '/timestamp', dto.timestamp)
+}
+
+export function createTimestamp(time: TimeStampCreateDTO) {
+  return myAxios.post<TimeStamp>(DOMAIN + '/me/' + time.curationId + '/timestamp', time.timestamp)
 }

@@ -70,7 +70,7 @@ export interface ButtonProps {
 }
 export const DefaultButton = styled.button<ButtonProps>`
   // background: ${(props) => (props.error ? theme.colors.error : theme.colors.white)};
-  padding: ${(props) => theme.paddings.base};
+  padding: ${(props) => theme.paddings.small};
   border-radius: 5px;
   border: ${(props) => (props.noDivider ? 'none' : `1px solid ${colors.border_color}`)};
   font-size: 14px;
