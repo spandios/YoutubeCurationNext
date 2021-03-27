@@ -21,31 +21,7 @@ myAxios.interceptors.request.use(
     if (token) {
       config.headers.Authorization = 'Bearer ' + token
     }
-    if (getAccessToken()) {
-      const jwt = decoded(getAccessToken()) as any
-      if (jwt) {
-        const exp = new Date(jwt.exp * 1000)
-        const date = calMinute(-40, exp).toDate()
-        if (new Date() >= date) {
-          return myAxios
-            .post('/auth/refresh_token')
-            .then((res) => {
-              if (res.data) {
-                const access_token = res.data.accessToken
-                if (process.browser) setAccessToken(access_token)
-                myAxios.defaults.headers['Authorization'] = 'Bearer ' + access_token
-                config.headers.Authorization = 'Bearer ' + access_token
-                return Promise.resolve(config)
-              }
-            })
-            .catch((err) => {
-              clearToken()
-              document.location.href = '/login'
-              return Promise.resolve(config)
-            })
-        }
-      }
-    }
+    // config.headers['Content-Type'] = 'application/json';
     return Promise.resolve(config)
   },
   (error) => Promise.reject(error)
