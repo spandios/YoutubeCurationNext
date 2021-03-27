@@ -45,7 +45,7 @@ const YoutubePlayer = ({ youtubeId, onReadyPlayer }: MyProps) => {
     // @ts-ignore
     if (YT.loaded) {
       // @ts-ignore
-      playerDiv.current = new YT.Player('player', {
+      player.current = new YT.Player('player', {
         height: isMobile ? 250 : 500,
         width: '100%',
         videoId: id,

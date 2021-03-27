@@ -10,7 +10,6 @@ import styled from 'styled-components'
 import TimestampList from '../../src/feature/curation/component/TimestampComponent'
 import { useIsLogin } from '../../src/hook/ussIsLogin'
 import { useSwrLocal } from '../../src/hook/useSwrLocal'
-import { useLocalCurationDetail } from '../../src/feature/curation/hook/useLocalCurationDetail'
 import { CurationDetailResponse } from '../../src/feature/curation/dto/CurationDetailResponse'
 
 const Container = styled.div`
@@ -69,6 +68,7 @@ const MyCurationDetail = ({ data, id }) => {
           <YoutubePlayer
             youtubeId={curation.youtube.id}
             onReadyPlayer={(player) => {
+              console.log(player)
               setYoutubePlayer(player)
             }}
           />

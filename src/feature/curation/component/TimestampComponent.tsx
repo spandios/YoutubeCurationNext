@@ -9,7 +9,6 @@ import { useSwrLocal } from '../../../hook/useSwrLocal'
 import { CurationDetailResponse } from '../dto/CurationDetailResponse'
 import { MdMoreVert } from 'react-icons/md'
 import SelectDrop from '../../../common/cmponent/select/drop/SelectDrop'
-import myAxios from '../../../common/MyAxios'
 
 const TimestampContainer = styled.div`
   display: flex;
