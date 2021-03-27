@@ -39,13 +39,13 @@ const YoutubePlayer = ({ youtubeId, onReadyPlayer }: MyProps) => {
     const wrapper = document.getElementById('videoWrapper')
     const elem = document.getElementById('player')
     elem.parentNode.removeChild(elem)
-    const player = document.createElement('div')
-    player.id = 'player'
-    wrapper.appendChild(player)
+    const playerDiv = document.createElement('div')
+    playerDiv.id = 'player'
+    wrapper.appendChild(playerDiv)
     // @ts-ignore
     if (YT.loaded) {
       // @ts-ignore
-      player.current = new YT.Player('player', {
+      playerDiv.current = new YT.Player('player', {
         height: isMobile ? 250 : 500,
         width: '100%',
         videoId: id,

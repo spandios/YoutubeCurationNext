@@ -83,7 +83,7 @@ interface TimestampListProps {
   isCreate: boolean
   isYours: boolean
   defaultTimestamps?: TimeStamp[]
-  onCompleteUpdate: (timestamp: TimeStamp[]) => void
+  onCompleteUpdate?: (timestamp: TimeStamp[]) => void
   onChangeTimestamp?: (timestamp: TimeStamp[]) => void
 }
 
