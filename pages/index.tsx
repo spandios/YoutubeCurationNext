@@ -14,7 +14,6 @@ const Container = styled.div`
 `
 
 const AddCuration = styled(DefaultButton)`
-  width: 100%;
   margin: 16px 0;
 `
 
@@ -26,9 +25,10 @@ export default function Home() {
     <Container>
       <>
         {isLogin && !isValidating && data && data.length ? <MyCurationList list={data} /> : null}
-        <AddCuration>
-          <Link href="/curation/create">큐레이션 생성</Link>
-        </AddCuration>
+
+        <Link href="/curation/create">
+          <AddCuration>큐레이션 생성</AddCuration>
+        </Link>
         <iframe
           width="100%"
           height="315"
