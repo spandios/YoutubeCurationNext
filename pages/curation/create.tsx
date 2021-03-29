@@ -115,6 +115,7 @@ const CurationCreate = () => {
           : thumbnails.medium
           ? thumbnails.medium
           : thumbnails.default
+        console.log(resolution)
         const thumbnail = resolution.url
         const youtube = new Youtube()
         youtube.thumbnail = thumbnail
