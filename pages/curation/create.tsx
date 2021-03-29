@@ -109,7 +109,13 @@ const CurationCreate = () => {
       .then((r) => {
         const { data } = r
         const { categoryId, channelTitle, thumbnails, title, tags } = data.items[0].snippet
-        const thumbnail = thumbnails.default.url
+
+        const resolution = thumbnails.high
+          ? thumbnails.high
+          : thumbnails.medium
+          ? thumbnails.medium
+          : thumbnails.default
+        const thumbnail = resolution.url
         const youtube = new Youtube()
         youtube.thumbnail = thumbnail
         youtube.categoryId = categoryId
