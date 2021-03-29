@@ -33,15 +33,15 @@ const Item = styled.li`
   position: relative;
   @media ${theme.device.desktop} {
     flex-basis: calc(100% / 3);
-    &:nth-child(3n) {
-      padding: 0 0 24px 0;
-    }
+    //&:nth-child(3n) {
+    //  padding: 0 0 24px 0;
+    //}
   }
 
   @media ${theme.device.mobileL} {
-    &:nth-child(2n) {
-      padding: 0 0 24px 0;
-    }
+    //&:nth-child(2n) {
+    //  padding: 0 0 24px 0;
+    //}
   }
 
   .title {
