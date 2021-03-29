@@ -39,6 +39,7 @@ const Item = styled.li`
   }
 
   @media ${theme.device.mobileL} {
+    flex-basis: 100%;
     //&:nth-child(2n) {
     //  padding: 0 0 24px 0;
     //}
